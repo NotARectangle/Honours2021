@@ -3,7 +3,7 @@ import json
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-data = json.load(open('../Dataset/AllPicardLines.json', 'r'))
+data = json.load(open('../Dataset/AllPicardLines2.json', 'r'))
 
 #print(data.keys())
 def build_text_files(data_json, dest_path):
