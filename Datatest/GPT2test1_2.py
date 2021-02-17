@@ -1,6 +1,6 @@
-from transformers import GPT2Tokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
-tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-small")
 
 train_path = 'train_dataset.txt'
 test_path = 'test_dataset.txt'
@@ -29,7 +29,7 @@ train_dataset, test_dataset, data_collator = load_dataset(train_path, test_path,
 
 from transformers import Trainer, TrainingArguments, GPT2LMHeadModel
 
-model = GPT2LMHeadModel.from_pretrained("gpt2")
+model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-small")
 model.to('cuda')
 
 training_args = TrainingArguments(
