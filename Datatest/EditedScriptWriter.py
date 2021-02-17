@@ -25,22 +25,30 @@ index = 0
 #strip trailing whitespace
 while index < len(AllLogs):
     firstEpisode = firstEpisode.replace(AllLogs[index], " ")
+    #make all whitespace instances just one space
+    AllLogs[index] = re.sub(r"\s+", " ", AllLogs[index])
     AllLogs[index] = AllLogs[index].strip()
     index += 1
 #print(AllLogs)
 
 #find scenes
-settingRegex = "\[[\w\s]+\](?!\:)"
+settingRegex = "\[[\w\s']+\](?!\:)"
 
-#scenes = firstEpisode[len(captainsLog):]
+#split scenes by setting notation ex. [Bridge]
 scenes = firstEpisode[firstEpisode.index("["):]
 x = re.split(settingRegex, scenes)
 x.remove("")
-print(x[0])
 
-#delete captainslog from scenes
+index = 0
+#delete trailing whitespace
+while index < len(x):
+    #delete  [OC]-overcomms notation
+    x[index] = re.sub(r"\[[\w\s']+\]", "", x[index].strip())
+    #make all whitespace instances just one space
+    x[index] = re.sub(r"\s+", " ", x[index])
+    index += 1
 
-#delete " " instead of \n delete unnecessary whitespace
-#print(captainsLog)
-with open('../Dataset/TNGScriptCut.json', 'w', encoding='utf-8') as json_file:
-  json.dump(x, json_file)
+dict = {"Logs" : AllLogs, "Scenes" : x}
+
+with open('../Dataset/TNGScriptCutEp0.json', 'w', encoding='utf-8') as json_file:
+  json.dump(dict, json_file)
