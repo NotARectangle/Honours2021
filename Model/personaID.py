@@ -1,4 +1,5 @@
 from transformers import GPT2Tokenizer, GPT2DoubleHeadsModel
+import re
 
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 model = GPT2DoubleHeadsModel.from_pretrained('gpt2')
@@ -7,7 +8,7 @@ num_add_toks = tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": 
 
 
 def setSpecTokens(model, tokenizer):
-    tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": "<eos>"})
+    tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": "<eos>", "additional_special_tokens" : ["PICARD:"]})
     print(tokenizer.bos_token)
     print(tokenizer.eos_token)
     # adapt model to changes from tokenizer
@@ -32,7 +33,51 @@ def prepare_inputs(persona, history, reply):
     #encoded_samples = tokenizer.tokenize(s)
     string_input = persona + history + reply;
     print(string_input)
+    #Get scene speakers
+    speaker_token_re = "([A-Z]+:)"
+    speakers = []
+    repeat = False
+    for input in string_input:
+        if re.match(speaker_token_re, input):
+            speaker = re.findall(speaker_token_re, input)
+            for s in speaker:
+                if s not in speakers and s not in tokenizer.additional_special_tokens:
+                    speakers = speakers + speaker
 
+    spek_tokens = tokenizer.additional_special_tokens
+    #Add to special tokens maybe at end
+    if len(speakers) != 0:
+        spek_tokens = tokenizer.additional_special_tokens + speakers
+        tokenizer.add_special_tokens({"additional_special_tokens" : spek_tokens})
+        model.resize_token_embeddings(len(tokenizer))
+
+   # print(tokenizer.additional_special_tokens)
+
+    #encode all inputs
+    input_ids = [tokenizer.encode(s) for s in string_input]
+    #encode token type ids
+    spek_token_ids = tokenizer.encode(spek_tokens)
+   # for s in spek_tokens:
+    #    spek_token_ids.append(tokenizer.encode(s)[0])
+    # beginning Ids for character.
+    currentSpeaker = spek_token_ids[0] # start with selected character
+    token_type_ids = []
+    words = []
+    for tokens in input_ids:
+        for token in tokens:
+            #cocacennate all tokens together
+            words.append(token)
+            if token in spek_token_ids:
+          #      print("Token Found")
+                currentSpeaker = spek_token_ids[spek_token_ids.index(token)]
+            token_type_ids.append(currentSpeaker)
+    #encode target lm_labels
+
+    print(token_type_ids)
+    print(spek_token_ids)
+    #sequence
+    print(input_ids)
+    print(words)
     """Okay...
     We need the add characters in the scene that are not in special tokens into special tokens.
     then encode entire sequence as input_ids, 
@@ -52,6 +97,7 @@ sample = ["<bos> PICARD: You will agree, Data, that Starfleet's orders are diffi
 #encoded_samples = [tokenizer.encode(s) for s in sample]
 #print(encoded_samples)
 
+setSpecTokens(model, tokenizer)
 persona, history, reply = getSamples()
 prepare_inputs(persona, history, reply)
 """
