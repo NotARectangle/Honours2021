@@ -1,5 +1,6 @@
 from transformers import GPT2Tokenizer, GPT2DoubleHeadsModel
 import re
+import torch
 
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 model = GPT2DoubleHeadsModel.from_pretrained('gpt2')
@@ -54,7 +55,7 @@ def prepare_inputs(persona, history, reply):
    # print(tokenizer.additional_special_tokens)
 
     #encode all inputs
-    input_ids = [tokenizer.encode(s) for s in string_input]
+    sequence = [tokenizer.encode(s) for s in string_input]
     #encode token type ids
     spek_token_ids = tokenizer.encode(spek_tokens)
    # for s in spek_tokens:
@@ -63,7 +64,7 @@ def prepare_inputs(persona, history, reply):
     currentSpeaker = spek_token_ids[0] # start with selected character
     token_type_ids = []
     words = []
-    for tokens in input_ids:
+    for tokens in sequence:
         for token in tokens:
             #cocacennate all tokens together
             words.append(token)
@@ -76,16 +77,16 @@ def prepare_inputs(persona, history, reply):
     print(token_type_ids)
     print(spek_token_ids)
     #sequence
-    print(input_ids)
+    print(sequence)
     print(words)
-    """Okay...
-    We need the add characters in the scene that are not in special tokens into special tokens.
-    then encode entire sequence as input_ids, 
-    Then keep track of sequence of special tokens in scene , who speaks in what order, and all that they are speaking
-    ex. 'DATA:', 'i', 'like', 'playing', 'football', 'PICARD:', 'I', 'don't'
-    Data:, Data:, Data:, Data, Data,  Picard, picard, picard.
-    Wee need the location of the last token <eos>
-    """
+    positions = list(range(len(words)))
+
+    return words, sequence, positions, token_type_ids
+
+def padding(words):
+    print("padding")
+
+
 
 # sample of what the data will look like to train the token embeddings.
 sample = ["<bos> PICARD: You will agree, Data, that Starfleet's orders are difficult? ",
@@ -99,7 +100,34 @@ sample = ["<bos> PICARD: You will agree, Data, that Starfleet's orders are diffi
 
 setSpecTokens(model, tokenizer)
 persona, history, reply = getSamples()
-prepare_inputs(persona, history, reply)
+words, sequence, positions, token_type_ids = prepare_inputs(persona, history, reply)
+
+print("word length: " + str(len(words)) + " positions len " + str(len(positions)) + " sequence length " + str(len(token_type_ids)))
+#pad input
+
+last_token = len(words)-1
+lm_targets = []
+#build language modeling targets
+for seq in sequence:
+    lm_targets = (seq[:-1])
+
+
+#print("Language targets: " + str(lm_targets))
+
+#word tokens
+input_ids = torch.tensor(words, dtype=torch.long)
+#segement tokens
+tok_type_ids = torch.tensor(token_type_ids, dtype=torch.long)
+#last token location
+mc_token_ids = torch.tensor(last_token, dtype=torch.long)
+#language modeling labels
+lm_labels = torch.tensor(lm_targets, dtype=torch.long)
+# Next-sentence prediction labels
+#something mc_labels.... is not working
+mc_labels_s = [1]
+mc_labels = torch.tensor(mc_labels_s, dtype=torch.long)
+outputs = model(input_ids, token_type_ids=tok_type_ids, mc_token_ids=mc_token_ids, lm_labels=lm_labels, mc_labels=mc_labels)
+
 """
 add_tokens_loc = []
 special_tokens = ["<bos>", "<eos>"]
