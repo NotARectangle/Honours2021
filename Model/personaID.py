@@ -66,13 +66,14 @@ def prepare_inputs(persona, history, reply):
     words = []
     for tokens in sequence:
         for token in tokens:
-            #cocacennate all tokens together
+            #cocacennate all tokens in sequence together
             words.append(token)
             if token in spek_token_ids:
-          #      print("Token Found")
                 currentSpeaker = spek_token_ids[spek_token_ids.index(token)]
-            token_type_ids.append(currentSpeaker)
-    #encode target lm_labels
+            if token is tokenizer.bos_token_id or token is tokenizer.eos_token_id:
+                token_type_ids.append(token)
+            else:
+                token_type_ids.append(currentSpeaker)
 
     print(token_type_ids)
     print(spek_token_ids)
@@ -83,20 +84,40 @@ def prepare_inputs(persona, history, reply):
 
     return words, sequence, positions, token_type_ids
 
-def padding(words):
-    print("padding")
+# pad inputs to same length
+def padding(encoded_input):
+    input_len = []
+    for input in encoded_input:
+        input_len.append(len(input))
 
+    # find the longes input
+    maxLen = max(input_len)
 
+    # pad all other inputs to longest lengths
+    index = 0
+    while index < len(encoded_input):
+        if (len(encoded_input[index])) < maxLen:
+            # pad difference between longest input and current input
+            padding_length = maxLen - len(encoded_input)
+            count = 0
+            while count < padding_length:
+                encoded_input[index].append(0)
+                count += 1
+        index += 1
 
-# sample of what the data will look like to train the token embeddings.
-sample = ["<bos> PICARD: You will agree, Data, that Starfleet's orders are difficult? ",
-          "DATA: Difficult? Simply solve the mystery of Farpoint Station. ",
-          "PICARD: As simple as that. ",
-          "TROI: Farpoint Station. Even the name sounds mysterious. ",
-          "PICARD: It's hardly simple, Data, to negotiate a friendly agreement for Starfleet to use the base while at the same time snoop around finding how and why the life form there built it. <eos>"]
+    # add attention mask
+    att_Mask = []
+    for input in encoded_input:
+        item = []
+        for i in input:
+            if i != 0:
+                item.append(1)
+            else:
+                item.append(0)
+        att_Mask.append(item)
 
-#encoded_samples = [tokenizer.encode(s) for s in sample]
-#print(encoded_samples)
+    return encoded_input, att_Mask
+
 
 setSpecTokens(model, tokenizer)
 persona, history, reply = getSamples()
@@ -124,21 +145,6 @@ mc_token_ids = torch.tensor(last_token, dtype=torch.long)
 lm_labels = torch.tensor(lm_targets, dtype=torch.long)
 # Next-sentence prediction labels
 #something mc_labels.... is not working
-mc_labels_s = [1]
-mc_labels = torch.tensor(mc_labels_s, dtype=torch.long)
-outputs = model(input_ids, token_type_ids=tok_type_ids, mc_token_ids=mc_token_ids, lm_labels=lm_labels, mc_labels=mc_labels)
-
-"""
-add_tokens_loc = []
-special_tokens = ["<bos>", "<eos>"]
-
-for token in encoded_samples:
-    if (tokenizer.bos_token_id in token):
-        add_tokens_loc.append(token.index(tokenizer.bos_token_id))
-    if (tokenizer.eos_token_id in token):
-        add_tokens_loc.append(token.index(tokenizer.eos_token_id))
-
-print(add_tokens_loc)
-print(encoded_samples)
-print(len(encoded_samples))
-"""
+#mc_labels_s = [1]
+#mc_labels = torch.tensor(mc_labels_s, dtype=torch.long)
+outputs = model(input_ids, token_type_ids=tok_type_ids, mc_token_ids=mc_token_ids, lm_labels=lm_labels, )
