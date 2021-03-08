@@ -2,6 +2,8 @@ from transformers import GPT2Tokenizer, GPT2DoubleHeadsModel
 import re
 import torch
 
+
+
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 model = GPT2DoubleHeadsModel.from_pretrained('gpt2')
 
@@ -30,10 +32,10 @@ def getSamples():
 
     return persona, history, reply
 
-def prepare_inputs(persona, history, reply):
+def prepare_inputs(persona, history, reply, model, tokenizer):
     #encoded_samples = tokenizer.tokenize(s)
     string_input = persona + history + reply;
-    print(string_input)
+    #print(string_input)
     #Get scene speakers
     speaker_token_re = "([A-Z]+:)"
     speakers = []
@@ -58,9 +60,7 @@ def prepare_inputs(persona, history, reply):
     sequence = [tokenizer.encode(s) for s in string_input]
     #encode token type ids
     spek_token_ids = tokenizer.encode(spek_tokens)
-   # for s in spek_tokens:
-    #    spek_token_ids.append(tokenizer.encode(s)[0])
-    # beginning Ids for character.
+
     currentSpeaker = spek_token_ids[0] # start with selected character
     token_type_ids = []
     words = []
@@ -74,12 +74,13 @@ def prepare_inputs(persona, history, reply):
                 token_type_ids.append(token)
             else:
                 token_type_ids.append(currentSpeaker)
-
+    """
     print(token_type_ids)
     print(spek_token_ids)
     #sequence
     print(sequence)
     print(words)
+    """
     positions = list(range(len(words)))
 
     return words, sequence, positions, token_type_ids
@@ -119,6 +120,8 @@ def padding(encoded_input):
     return encoded_input, att_Mask
 
 
+
+"""
 setSpecTokens(model, tokenizer)
 persona, history, reply = getSamples()
 words, sequence, positions, token_type_ids = prepare_inputs(persona, history, reply)
@@ -148,3 +151,4 @@ lm_labels = torch.tensor(lm_targets, dtype=torch.long)
 #mc_labels_s = [1]
 #mc_labels = torch.tensor(mc_labels_s, dtype=torch.long)
 outputs = model(input_ids, token_type_ids=tok_type_ids, mc_token_ids=mc_token_ids, lm_labels=lm_labels, )
+"""
