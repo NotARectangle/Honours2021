@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="padding method added to personaID">
-      <change afterPath="$PROJECT_DIR$/Model/dataImport.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="dataset encoding">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dataset/picardData.json" beforeDir="false" afterPath="$PROJECT_DIR$/Dataset/picardData.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/dataImport.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/dataImport.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/personaID.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/personaID.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModelTests/personaWriter.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/personaWriter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +33,11 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\milen\Documents\GitHub\Honours2021\Model" />
+    </key>
   </component>
   <component name="RunManager" selected="Python.main">
     <configuration name="dataImport" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -184,7 +185,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615213449256</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="dataset encoding">
+      <created>1615218680548</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1615218680548</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -204,14 +212,15 @@
     <MESSAGE value="Building model PersonaID" />
     <MESSAGE value="Building model PersonaID ready for training build" />
     <MESSAGE value="padding method added to personaID" />
-    <option name="LAST_COMMIT_MESSAGE" value="padding method added to personaID" />
+    <MESSAGE value="dataset encoding" />
+    <option name="LAST_COMMIT_MESSAGE" value="dataset encoding" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Model/dataImport.py</url>
-          <line>40</line>
+          <line>58</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
