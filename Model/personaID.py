@@ -4,10 +4,10 @@ import torch
 
 
 
-tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-model = GPT2DoubleHeadsModel.from_pretrained('gpt2')
+#tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+#model = GPT2DoubleHeadsModel.from_pretrained('gpt2')
 
-num_add_toks = tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": "<eos>"})
+#num_add_toks = tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": "<eos>"})
 
 
 def setSpecTokens(model, tokenizer):
@@ -34,6 +34,7 @@ def getSamples():
 
 def prepare_inputs(persona, history, reply, model, tokenizer):
     #encoded_samples = tokenizer.tokenize(s)
+    max_input = 1024 #GPT2 max input sequence length.
     string_input = persona + history + reply;
     #print(string_input)
     #Get scene speakers
@@ -58,6 +59,7 @@ def prepare_inputs(persona, history, reply, model, tokenizer):
 
     #encode all inputs
     sequence = [tokenizer.encode(s) for s in string_input]
+
     #encode token type ids
     spek_token_ids = tokenizer.encode(spek_tokens)
 
@@ -74,12 +76,17 @@ def prepare_inputs(persona, history, reply, model, tokenizer):
                 token_type_ids.append(token)
             else:
                 token_type_ids.append(currentSpeaker)
+    #check if inputs are to long.
     """
-    print(token_type_ids)
-    print(spek_token_ids)
-    #sequence
-    print(sequence)
-    print(words)
+    persona_tok = spek_token_ids[0]
+    if len(words) > max_input:
+        # IF character speaks more than once split into two scenes
+        index_pos_list = []
+        index_pos = 0
+        while True:
+            index_pos = words.index(persona_tok, index_pos)
+            index_pos_list.append(index_pos)
+            index_pos+1
     """
     positions = list(range(len(words)))
 
@@ -88,8 +95,9 @@ def prepare_inputs(persona, history, reply, model, tokenizer):
 # pad inputs to same length
 def padding(encoded_input):
     input_len = []
-    for input in encoded_input:
-        input_len.append(len(input))
+    for e_input in encoded_input:
+        input_len.append(len(e_input))
+
 
     # find the longes input
     maxLen = max(input_len)
@@ -99,7 +107,7 @@ def padding(encoded_input):
     while index < len(encoded_input):
         if (len(encoded_input[index])) < maxLen:
             # pad difference between longest input and current input
-            padding_length = maxLen - len(encoded_input)
+            padding_length = maxLen - len(encoded_input[index])
             count = 0
             while count < padding_length:
                 encoded_input[index].append(0)

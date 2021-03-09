@@ -36,9 +36,7 @@ for ep in episodes:
             utterances.append(utterance)
 
 #hardcoding in some example introductions for now into Persona ID
-newData = {"PersonaID" : ["<bos>", persona, "I'm Jean-Luc Picard, Captain of the Enterprise.",
-               "I'm Captain Picard of the Enterprise.",
-               "Welcome to the Enterprise. I'm Captain Picard."], "utterances" : utterances}
+newData = {"PersonaID" : ["<bos>", persona, "I'm Jean-Luc Picard, Captain of the Enterprise."], "utterances" : utterances}
 print(len(newData["utterances"]))
 with open('../Dataset/picardData.json', 'w', encoding='utf-8') as json_file:
   json.dump(newData, json_file)

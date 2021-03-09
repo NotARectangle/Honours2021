@@ -1,7 +1,9 @@
 import torch
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, TensorDataset
 from transformers import AdamW
+from torch.nn import functional as F
 
+"""
 class tng_dataset(torch.utils.data.Dataset):
     def __init__(self, encodings):
         self.encodings = encodings
@@ -10,38 +12,46 @@ class tng_dataset(torch.utils.data.Dataset):
         return {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
 
     def __len__(self):
-        return len(self.encodings.input_ids)
+        return len(self.encodings["input_ids"])
+"""
 
 def train(input_dict, model):
     print("start training method")
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    device = torch.device("cpu")
     model.to(device)
     model.train()
     optim = AdamW(model.parameters(), lr=5e-5)
     # get tensors
-    train_dataset = tng_dataset(input_dict)
-
+   # print(input_ids)
+   # model(input_ids=input_ids)
     """
-    input_ids = torch.tensor(input_dict["word_inputs"])
+    input_ids = torch.tensor(input_dict["input_ids"])
     lm_targets = torch.tensor(input_dict["lm_targets"])
     token_type_ids = torch.tensor(input_dict["token_type_ids"])
     #att_mask = torch.tensor(input_dict["att_mask"])
     """
+    train_dataset = TensorDataset(*input_dict["train"])
     #convert to dataset.
-    train_loader = DataLoader(train_dataset, True)
+    train_loader = DataLoader(train_dataset, batch_size=3)
     for epoch in range(3):
-      #  load input in batches
+      print("Epoch :" + str(epoch))
+        #  load input in batches
       for batch in train_loader:
         optim.zero_grad()
-        input_ids = batch['input_ids'].to(device)
-        lm_targets = batch["lm_targets"].to(device)
-        token_type_ids = batch["token_type_ids"].to(device)
-        #last token
-        mc_token_ids = batch["mc_token_ids"].to(device)
-        outputs = model(input_ids= input_ids, lm_targets=lm_targets, mc_token_ids=mc_token_ids, token_type_ids=token_type_ids)
-        loss = outputs[0]
+        input_ids, lm_targets, positions, token_type_ids, mc_token_ids, att_mask = batch
+        labels = input_ids
+        outputs = model(input_ids=input_ids, lm_targets=lm_targets, attention_mask=att_mask, token_type_ids=token_type_ids, mc_token_ids=mc_token_ids, labels=token_type_ids)
+        loss = outputs.loss
         loss.backward()
         optim.step()
+        print("step")
+       # print(outputs.loss)
+
+
+        #lm_logits = outputs.logits
+        #mc_logits = outputs.mc_logits
+        #optim.step()
 
     print("Finished training")
 
