@@ -1,6 +1,6 @@
 from transformers import GPT2Tokenizer, GPT2DoubleHeadsModel
 import re
-import torch
+import numpy as np
 
 
 
