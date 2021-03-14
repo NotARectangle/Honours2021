@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import DataLoader, TensorDataset
-from transformers import AdamW
-from torch.nn import functional as F
+from transformers import AdamW, AutoModel
+import transformers
 
 """
 class tng_dataset(torch.utils.data.Dataset):
@@ -33,7 +33,7 @@ def train(input_dict, model):
     """
     train_dataset = TensorDataset(*input_dict["train"])
     #convert to dataset.
-    train_loader = DataLoader(train_dataset, batch_size=3)
+    train_loader = DataLoader(train_dataset, batch_size=15)
     for epoch in range(3):
       print("Epoch :" + str(epoch))
         #  load input in batches
@@ -54,6 +54,14 @@ def train(input_dict, model):
         #optim.step()
 
     print("Finished training")
+    model.eval()
+
+    model.save_pretrained("./TNG/MakeItSo")
+
+    print("model_changed?")
+
+
+
 
 def config_dir():
     return "/MakeItSo"

@@ -17,7 +17,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
     utterances = data["utterances"]
     index = 0
 #    while index < len(utterances):
-    while index < 10: #less to make it faster for testing
+    while index < 300: #less to make it faster for testing
         history = utterances[index]["history"]
         reply = utterances[index]["reply"]
         #tokenize and build word sequence sing prepare inputs
@@ -51,7 +51,6 @@ def prepare_inputs_from_data(data, model, tokenizer):
         print(index)
 
     print("finished while prep input")
-
 
     #pad and then convert to tensors.
     for key in input_dict:
