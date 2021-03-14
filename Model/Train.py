@@ -33,7 +33,7 @@ def train(input_dict, model):
     """
     train_dataset = TensorDataset(*input_dict["train"])
     #convert to dataset.
-    train_loader = DataLoader(train_dataset, batch_size=15)
+    train_loader = DataLoader(train_dataset, batch_size=10)
     for epoch in range(3):
       print("Epoch :" + str(epoch))
         #  load input in batches

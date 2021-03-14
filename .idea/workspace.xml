@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="uncommitted changes">
+    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="model saved">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/dataImport.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/dataImport.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -213,7 +212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615730708769</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="model saved">
+      <created>1615742459349</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1615742459349</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -237,17 +243,7 @@
     <MESSAGE value="first training.py attempts" />
     <MESSAGE value="training working, but loss is not calculated properly" />
     <MESSAGE value="uncommitted changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="uncommitted changes" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Model/Train.py</url>
-          <line>58</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="model saved" />
+    <option name="LAST_COMMIT_MESSAGE" value="model saved" />
   </component>
 </project>
