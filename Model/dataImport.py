@@ -17,7 +17,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
     utterances = data["utterances"]
     index = 0
 #    while index < len(utterances):
-    while index < 50: #less to make it faster for testing
+    while index < 500: #less to make it faster for testing
         history = utterances[index]["history"]
         reply = utterances[index]["reply"]
         #tokenize and build word sequence sing prepare inputs
@@ -33,14 +33,18 @@ def prepare_inputs_from_data(data, model, tokenizer):
             lm_targets = sequence[(len(sequence)-1)]
             lm_targets = lm_targets[:-1]
             """
+            in_reply = False
             for seq in sequence:
                 # make labels pointing to reply
                 j = 0
-                label = 1
+                label = -100
                 # check if reply
                 if seq == sequence[(len(sequence)-1)]:
-                    label = 10
+                    #label = 10
+                    in_reply = True
                 while j < len(seq):
+                    if in_reply is True:
+                        label = seq[j]
                     labels.append(label)
                     j += 1
             """
