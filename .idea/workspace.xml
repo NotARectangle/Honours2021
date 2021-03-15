@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="model is trained but is not generating text">
+    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="still troubleshooting training">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Train.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model/dataImport.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/dataImport.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/personaID.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/personaID.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModelTests/custom_tokens.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +234,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615766187164</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="still troubleshooting training">
+      <created>1615828640266</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1615828640266</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -263,6 +267,7 @@
     <MESSAGE value="uncommitted changes" />
     <MESSAGE value="model saved" />
     <MESSAGE value="model is trained but is not generating text" />
-    <option name="LAST_COMMIT_MESSAGE" value="model is trained but is not generating text" />
+    <MESSAGE value="still troubleshooting training" />
+    <option name="LAST_COMMIT_MESSAGE" value="still troubleshooting training" />
   </component>
 </project>

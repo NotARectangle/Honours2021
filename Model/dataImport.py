@@ -32,6 +32,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
             #language modeling targets
             lm_targets = sequence[(len(sequence)-1)]
             lm_targets = lm_targets[:-1]
+            """
             for seq in sequence:
                 # make labels pointing to reply
                 j = 0
@@ -42,11 +43,11 @@ def prepare_inputs_from_data(data, model, tokenizer):
                 while j < len(seq):
                     labels.append(label)
                     j += 1
-
+            """
             input_dict["lm_targets"].append(lm_targets)
             input_dict["positions"].append(positions)
             input_dict["token_type_ids"].append(token_type_ids)
-            input_dict["labels"].append(labels)
+            input_dict["labels"].append(words)
         index += 1
         print(index)
 
