@@ -12,17 +12,17 @@ def load_dataset(filePath):
 
 def prepare_inputs_from_data(data, model, tokenizer):
     input_dict = {"input_ids": [], "lm_targets": [], "positions": [], "token_type_ids":[]
-        , "mc_token_ids": [], "att_mask": [], "labels": []}
+        , "mc_token_ids": [], "labels": []}#, "attention_mask": []}
     persona = data["PersonaID"]
     utterances = data["utterances"]
     index = 0
 #    while index < len(utterances):
-    while index < 300: #less to make it faster for testing
+    while index < 50: #less to make it faster for testing
         history = utterances[index]["history"]
         reply = utterances[index]["reply"]
         #tokenize and build word sequence sing prepare inputs
         words, sequence, positions, token_type_ids = prepare_inputs(persona, history, reply, model, tokenizer)
-        if len(words) < 1020:
+        if len(words) < 300:
             #Add inputs to input_dict
             input_dict["input_ids"].append(words)
             last_token = len(words)-1
@@ -35,10 +35,10 @@ def prepare_inputs_from_data(data, model, tokenizer):
             for seq in sequence:
                 # make labels pointing to reply
                 j = 0
-                label = 0
+                label = 1
                 # check if reply
                 if seq == sequence[(len(sequence)-1)]:
-                    label = 1
+                    label = 10
                 while j < len(seq):
                     labels.append(label)
                     j += 1
@@ -54,14 +54,36 @@ def prepare_inputs_from_data(data, model, tokenizer):
 
     #pad and then convert to tensors.
     for key in input_dict:
-        if key == "input_ids":
-            paddedInput, att_mask = padding(input_dict[key])
-            input_dict["att_mask"] = att_mask
-         #   input_dict[key] = paddedInput
-        elif key != "att_mask" and key != "mc_token_ids":
-            paddedInput, _ = padding(input_dict[key])
-           # input_dict[key] = paddedInput
+        if key != "mc_token_ids" and key != "attention_mask":
+            paddedInput = padding(input_dict[key], tokenizer)
 
+    count = 0
+    while count < len(input_dict["labels"]):
+        newLabels = []
+        for i in input_dict["labels"][count]:
+            if i == tokenizer.pad_token_id:
+                newLabels.append(-100)
+            else:
+                newLabels.append(i)
+        input_dict["labels"][count] = newLabels
+        count+=1
+
+    """
+    # add attention mask
+    att_Mask = []
+    for input in input_dict["input_ids"]:
+        item = []
+        for i in input:
+            if i != tokenizer.pad_token_id:
+                item.append(1)
+            else:
+                item.append(0)
+        att_Mask.append(item)
+
+    input_dict["attention_mask"] = att_Mask
+    print(input_dict["attention_mask"][2])
+    print(input_dict["attention_mask"][1])
+    """
     return input_dict
 
  #build tensor dataset.

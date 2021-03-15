@@ -11,7 +11,7 @@ import numpy as np
 
 
 def setSpecTokens(model, tokenizer):
-    tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": "<eos>", "additional_special_tokens" : ["PICARD:"]})
+    tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": "<eos>", "pad_token": "<pad>", "additional_special_tokens" : ["PICARD:"]})
     print(tokenizer.bos_token)
     print(tokenizer.eos_token)
     # adapt model to changes from tokenizer
@@ -93,7 +93,7 @@ def prepare_inputs(persona, history, reply, model, tokenizer):
     return words, sequence, positions, token_type_ids
 
 # pad inputs to same length
-def padding(encoded_input):
+def padding(encoded_input, tokenizer):
     input_len = []
     for e_input in encoded_input:
         input_len.append(len(e_input))
@@ -110,53 +110,12 @@ def padding(encoded_input):
             padding_length = maxLen - len(encoded_input[index])
             count = 0
             while count < padding_length:
-                encoded_input[index].append(0)
+                encoded_input[index].append(tokenizer.pad_token_id) #pad token id
                 count += 1
         index += 1
 
-    # add attention mask
-    att_Mask = []
-    for input in encoded_input:
-        item = []
-        for i in input:
-            if i != 0:
-                item.append(1)
-            else:
-                item.append(0)
-        att_Mask.append(item)
-
-    return encoded_input, att_Mask
 
 
 
-"""
-setSpecTokens(model, tokenizer)
-persona, history, reply = getSamples()
-words, sequence, positions, token_type_ids = prepare_inputs(persona, history, reply)
 
-print("word length: " + str(len(words)) + " positions len " + str(len(positions)) + " sequence length " + str(len(token_type_ids)))
-#pad input
-
-last_token = len(words)-1
-lm_targets = []
-#build language modeling targets
-for seq in sequence:
-    lm_targets = (seq[:-1])
-
-
-#print("Language targets: " + str(lm_targets))
-
-#word tokens
-input_ids = torch.tensor(words, dtype=torch.long)
-#segement tokens
-tok_type_ids = torch.tensor(token_type_ids, dtype=torch.long)
-#last token location
-mc_token_ids = torch.tensor(last_token, dtype=torch.long)
-#language modeling labels
-lm_labels = torch.tensor(lm_targets, dtype=torch.long)
-# Next-sentence prediction labels
-#something mc_labels.... is not working
-#mc_labels_s = [1]
-#mc_labels = torch.tensor(mc_labels_s, dtype=torch.long)
-outputs = model(input_ids, token_type_ids=tok_type_ids, mc_token_ids=mc_token_ids, lm_labels=lm_labels, )
-"""
+    return encoded_input

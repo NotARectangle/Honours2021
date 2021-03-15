@@ -3,7 +3,7 @@ import torch
 from Model.Train import train
 from Model.dataImport import load_dataset, prepare_inputs_from_data
 from personaID import setSpecTokens
-"""
+
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 model = GPT2DoubleHeadsModel.from_pretrained('gpt2')
 
@@ -34,7 +34,7 @@ makeItSo = pipeline('text-generation',model='./TNG/MakeItSo', tokenizer='./TNG/M
 #Model/TNG/MakeItSoTok/config.json
 print(makeItSo("PICARD: make it so."))
 print(makeItSo("RIKER: Are you alright Captain."))
-"""
+
 print("Start")
 tokenizer = GPT2Tokenizer.from_pretrained('./TNG/MakeItSo')
 
@@ -48,6 +48,6 @@ input_ids = tokenizer.encode("TROI: Or an incredibly powerful forcefield. But if
 greedy_output = model.generate(input_ids, max_length=50)
 
 print("Output:\n" + 100 * '-')
-print(tokenizer.decode(greedy_output[0], skip_special_tokens=True))
+print(tokenizer.decode(greedy_output[0], skip_special_tokens=False))
 #model.generate(input_ids)
 print("done")
