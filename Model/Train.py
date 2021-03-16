@@ -41,7 +41,7 @@ def train(input_dict, model):
         optim.zero_grad()
         input_ids, lm_targets, positions, token_type_ids, mc_token_ids, labels = batch
        # labels = input_ids
-        outputs = model(input_ids=input_ids, labels=labels, token_type_ids=token_type_ids)
+        outputs = model(input_ids=input_ids, labels=labels)
         loss = outputs.loss
         loss.backward()
         optim.step()

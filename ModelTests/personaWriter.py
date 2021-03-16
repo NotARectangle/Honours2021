@@ -28,11 +28,13 @@ for ep in episodes:
             if "\n" in reply:
                 reply = reply[:reply.index("\n")]
             reply = reply + " <eos>"
+            reply = re.sub(r"(\([\s\w,\.!'?/\\-]+\))", "", reply)
             history = scene[:replyIndex]
-            #history = re.sub(r"(\([A-Za-z\s]+\))", "", history) do this while there is still that in history. 
+            history = re.sub(r"(\([\s\w,\.!'?/\\-]+\))", "", history) #do this while there is still that in history.
             history = re.split("\\n", history)
             while "" in history:
                 history.remove("")
+
             utterance = {"history" : history, "reply" : [reply]}
             utterances.append(utterance)
 
