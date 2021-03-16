@@ -11,7 +11,7 @@ import numpy as np
 
 
 def setSpecTokens(model, tokenizer):
-    tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": "<eos>", "pad_token": "<pad>", "additional_special_tokens" : ["PICARD:"]})
+    tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": "<eos>", "pad_token": "<pad>"})#, "additional_special_tokens" : ["PICARD:"]})
     print(tokenizer.bos_token)
     print(tokenizer.eos_token)
     # adapt model to changes from tokenizer
@@ -47,47 +47,48 @@ def prepare_inputs(persona, history, reply, model, tokenizer):
             for s in speaker:
                 if s not in speakers and s not in tokenizer.additional_special_tokens:
                     speakers = speakers + speaker
-
+    """
     spek_tokens = tokenizer.additional_special_tokens
     #Add to special tokens maybe at end
     if len(speakers) != 0:
         spek_tokens = tokenizer.additional_special_tokens + speakers
         tokenizer.add_special_tokens({"additional_special_tokens" : spek_tokens})
         model.resize_token_embeddings(len(tokenizer))
+            #encode token type ids
+    spek_token_ids = tokenizer.encode(spek_tokens)
+    """
 
    # print(tokenizer.additional_special_tokens)
-
+   
     #encode all inputs
     sequence = [tokenizer.encode(s) for s in string_input]
 
-    #encode token type ids
-    spek_token_ids = tokenizer.encode(spek_tokens)
 
-    currentSpeaker = spek_token_ids[0] # start with selected character
+
+    #currentSpeaker = spek_token_ids[0] # start with selected character
+    #currentSpeaker = 0
     token_type_ids = []
     words = []
-    for tokens in sequence:
-        for token in tokens:
+
+    for seq in sequence:
+        type = 0
+        if seq == sequence[(len(sequence)-1)]:
+            type = 1
+        for token in seq:
             #cocacennate all tokens in sequence together
             words.append(token)
+
+            token_type_ids.append(type)
+            """
             if token in spek_token_ids:
                 currentSpeaker = spek_token_ids[spek_token_ids.index(token)]
             if token is tokenizer.bos_token_id or token is tokenizer.eos_token_id:
                 token_type_ids.append(token)
             else:
                 token_type_ids.append(currentSpeaker)
+            """
     #check if inputs are to long.
-    """
-    persona_tok = spek_token_ids[0]
-    if len(words) > max_input:
-        # IF character speaks more than once split into two scenes
-        index_pos_list = []
-        index_pos = 0
-        while True:
-            index_pos = words.index(persona_tok, index_pos)
-            index_pos_list.append(index_pos)
-            index_pos+1
-    """
+
     positions = list(range(len(words)))
 
     return words, sequence, positions, token_type_ids

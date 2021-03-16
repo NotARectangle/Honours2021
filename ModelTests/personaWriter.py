@@ -29,6 +29,7 @@ for ep in episodes:
                 reply = reply[:reply.index("\n")]
             reply = reply + " <eos>"
             history = scene[:replyIndex]
+            #history = re.sub(r"(\([A-Za-z\s]+\))", "", history) do this while there is still that in history. 
             history = re.split("\\n", history)
             while "" in history:
                 history.remove("")

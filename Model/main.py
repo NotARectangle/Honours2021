@@ -4,7 +4,7 @@ from Model.Train import train
 from Model.dataImport import load_dataset, prepare_inputs_from_data
 from personaID import setSpecTokens
 
-"""
+
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 #model = GPT2DoubleHeadsModel.from_pretrained('gpt2')
 model = GPT2LMHeadModel.from_pretrained('gpt2')
@@ -26,16 +26,18 @@ for key in input_dict:
     tensor_dataset["train"].append(tensor)
 
 print(input_dict["labels"][1])
+print(input_dict["token_type_ids"][1])
 
 train(tensor_dataset, model)
 
 tokenizer.save_pretrained("./TNG/MakeItSo")
-"""
+
 #Model/TNG/MakeItSoTok
 makeItSo = pipeline('text-generation',model='./TNG/MakeItSo', tokenizer='./TNG/MakeItSo', config={'max_length':1200})
 #Model/TNG/MakeItSoTok/config.json
-print(makeItSo("<bos> PICARD: make it so."))
-print(makeItSo("<bos> RIKER: Are you alright Captain."))
+print(makeItSo("<bos> PICARD: You will agree, Data, that Starfleet's orders are difficult? DATA: Difficult? Simply solve the mystery of Farpoint Station. " +
+               "PICARD:  "))
+print(makeItSo("<bos> RIKER: Are you alright Captain. PICARD:"))
 
 print("Start")
 tokenizer = GPT2Tokenizer.from_pretrained('./TNG/MakeItSo')
@@ -44,7 +46,7 @@ model = GPT2LMHeadModel.from_pretrained('./TNG/MakeItSo')
 
 print("model loaded")
 
-input_ids = tokenizer.encode("<bos> TROI: Or an incredibly powerful forcefield. But if we collide with either it could be", return_tensors='pt')
+input_ids = tokenizer.encode("<bos> TROI: Or an incredibly powerful forcefield. But if we collide with either it could be dangerous, PICARD:", return_tensors='pt')
 
 # generate text until the output length (which includes the context length) reaches 50
 greedy_output = model.generate(input_ids, max_length=50)
