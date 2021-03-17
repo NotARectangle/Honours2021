@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="still changed token types and special tokens">
+    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="better version of trained model">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dataset/picardData.json" beforeDir="false" afterPath="$PROJECT_DIR$/Dataset/picardData.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/dataImport.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/dataImport.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dataset/TNGScriptCut2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Dataset/TNGScriptCut2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Datatest/EditedScriptWriter2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Datatest/EditedScriptWriter2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ModelTests/personaWriter.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/personaWriter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,7 +47,28 @@
       <recent name="C:\Users\milen\Documents\GitHub\Honours2021\Model" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.personaWriter">
+    <configuration name="EditedScriptWriter2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Honours2021" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Datatest" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Datatest/EditedScriptWriter2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="dataImport" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Honours2021" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -134,34 +153,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="picardFirstLines" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Honours2021" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Datatest" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Datatest/picardFirstLines.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.personaWriter" />
+        <item itemvalue="Python.EditedScriptWriter2" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.personaID" />
         <item itemvalue="Python.dataImport" />
-        <item itemvalue="Python.picardFirstLines" />
       </list>
     </recent_temporary>
   </component>
@@ -265,7 +263,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615901268811</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="better version of trained model">
+      <created>1615920031977</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1615920031978</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -293,17 +298,25 @@
     <MESSAGE value="model is trained but is not generating text" />
     <MESSAGE value="still troubleshooting training" />
     <MESSAGE value="still changed token types and special tokens" />
-    <option name="LAST_COMMIT_MESSAGE" value="still changed token types and special tokens" />
+    <MESSAGE value="better version of trained model" />
+    <option name="LAST_COMMIT_MESSAGE" value="better version of trained model" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Model/main.py</url>
-          <line>88</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="sc" />
+        <watch expression="added_scenes" />
+        <watch expression="last_sequence" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

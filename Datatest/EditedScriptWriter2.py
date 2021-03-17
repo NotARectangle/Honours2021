@@ -48,12 +48,12 @@ for ep in episodes:
     index = 0
     #delete trailing whitespace
     while index < len(x):
-        #delete  [OC]-overcomms notation
-        x[index] = re.sub(r"\[[\w\s']+\]", "", x[index].strip())
+        #delete  [OC]-overcomms notation and whitespace before it
+        x[index] = re.sub(r"\s\[[\w\s']+\]", "", x[index].strip())
         #make all whitespace instances just one space
         x[index] = re.sub(r"(\n){2,}", "\\n", x[index])
         #remove any \n inside one character speaking, only break before character
-        x[index] = re.sub(r"(\n)(?!(\w+:))(?!\()", " ", x[index])
+        x[index] = re.sub(r"(\n)(?!([A-Z]+ ?[A-Z]+ ?:)|[A-Z]:)(?!\()", " ", x[index])
         #x[index] = re.sub(r"\s+", " ", x[index])
 
         index += 1
