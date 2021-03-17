@@ -12,7 +12,7 @@ tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 model = GPT2LMHeadModel.from_pretrained('gpt2')
 
 setSpecTokens(model, tokenizer)
-filepath = '../Dataset/picardData.json'
+filepath = '../Dataset/picardData2.json'
 data = load_dataset(filepath)
 input_dict = prepare_inputs_from_data(data, model, tokenizer)
 #print(input_dict["input_ids"][0])
