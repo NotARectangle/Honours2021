@@ -6,7 +6,7 @@ from Model.Train import train
 from Model.dataImport import load_dataset, prepare_inputs_from_data
 from personaID import setSpecTokens
 
-"""
+
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 #model = GPT2DoubleHeadsModel.from_pretrained('gpt2')
 model = GPT2LMHeadModel.from_pretrained('gpt2')
@@ -20,20 +20,17 @@ tensor_dataset = {"train": []}
 length = []
 for item in input_dict["input_ids"]:
     length.append(len(item))
-print(length)
+print(length[0])
 
 
 for key in input_dict:
     tensor = torch.tensor(input_dict[key])
     tensor_dataset["train"].append(tensor)
 
-print(input_dict["labels"][1])
-print(input_dict["token_type_ids"][1])
-
 train(tensor_dataset, model)
 
-tokenizer.save_pretrained("./TNG/MakeItSo")
-
+tokenizer.save_pretrained("./TNG/MakeItSo2")
+"""
 #Model/TNG/MakeItSoTok
 makeItSo = pipeline('text-generation',model='./TNG/MakeItSo', tokenizer='./TNG/MakeItSo', config={'max_length':1200})
 #Model/TNG/MakeItSoTok/config.json
@@ -47,7 +44,7 @@ print(makeItSo("<bos> RIKER: Are you alright Captain Picard. PICARD:"))
 
 print(makeItSo("<bos> DATA: Are you alright Captain Picard. PICARD:"))
 print(makeItSo("<bos> TROI: Are you alright Captain Picard. PICARD:"))
-"""
+
 print("Start")
 from transformers import top_k_top_p_filtering
 from torch.nn import functional as F
@@ -93,7 +90,7 @@ for i in range(100):
 
 print(resulting_string)
 
-"""
+
 # generate text until the output length (which includes the context length) reaches 50
 greedy_output = model.generate(input_ids, max_length=50)
 
@@ -110,3 +107,5 @@ for i, sample_output in enumerate(sample_outputs):
   print("{}: {}".format(i, tokenizer.decode(sample_output, skip_special_tokens=True)))
 
 """
+
+print("end")

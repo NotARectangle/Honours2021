@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="better version of trained model">
+    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="restricted conversation turns to make training faster.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dataset/TNGScriptCut2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Dataset/TNGScriptCut2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Datatest/EditedScriptWriter2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Datatest/EditedScriptWriter2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModelTests/personaWriter.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/personaWriter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/dataImport.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/dataImport.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +47,7 @@
       <recent name="C:\Users\milen\Documents\GitHub\Honours2021\Model" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.personaWriter">
+  <component name="RunManager" selected="Python.main">
     <configuration name="EditedScriptWriter2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Honours2021" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -155,9 +155,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.personaWriter" />
         <item itemvalue="Python.EditedScriptWriter2" />
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.personaID" />
         <item itemvalue="Python.dataImport" />
       </list>
@@ -270,7 +270,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615920031978</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="restricted conversation turns to make training faster.">
+      <created>1615946817702</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1615946817702</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -299,10 +306,18 @@
     <MESSAGE value="still troubleshooting training" />
     <MESSAGE value="still changed token types and special tokens" />
     <MESSAGE value="better version of trained model" />
-    <option name="LAST_COMMIT_MESSAGE" value="better version of trained model" />
+    <MESSAGE value="restricted conversation turns to make training faster." />
+    <option name="LAST_COMMIT_MESSAGE" value="restricted conversation turns to make training faster." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Model/dataImport.py</url>
+          <line>19</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

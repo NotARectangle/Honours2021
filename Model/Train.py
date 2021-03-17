@@ -56,7 +56,7 @@ def train(input_dict, model):
     print("Finished training")
     model.eval()
 
-    model.save_pretrained("./TNG/MakeItSo")
+    model.save_pretrained("./TNG/MakeItSo2")
 
     print("model_changed?")
 

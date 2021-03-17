@@ -17,12 +17,13 @@ def prepare_inputs_from_data(data, model, tokenizer):
     utterances = data["utterances"]
     index = 0
 #    while index < len(utterances):
-    while index < 1000: #less to make it faster for testing
+    trainingLen = len(utterances) - int(len(utterances) * 0.20)
+    while index < trainingLen: #less to make it faster for testing
         history = utterances[index]["history"]
         reply = utterances[index]["reply"]
         #tokenize and build word sequence sing prepare inputs
         words, sequence, positions, token_type_ids = prepare_inputs(persona, history, reply, model, tokenizer)
-        if len(words) < 300:
+        if len(words) < 1000:
             #Add inputs to input_dict
             input_dict["input_ids"].append(words)
             last_token = len(words)-1
