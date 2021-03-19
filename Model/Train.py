@@ -39,9 +39,9 @@ def train(input_dict, model):
         #  load input in batches
       for batch in train_loader:
         optim.zero_grad()
-        input_ids, lm_targets, positions, token_type_ids, mc_token_ids, labels = batch
+        input_ids, positions, token_type_ids, mc_token_ids, labels = batch
        # labels = input_ids
-        outputs = model(input_ids=input_ids, labels=labels)
+        outputs = model(input_ids=input_ids, labels=labels, token_type_ids=token_type_ids)
         loss = outputs.loss
         loss.backward()
         optim.step()
@@ -56,7 +56,7 @@ def train(input_dict, model):
     print("Finished training")
     model.eval()
 
-    model.save_pretrained("./TNG/MakeItSo2")
+    model.save_pretrained("./TNG/MakeItSo3")
 
     print("model_changed?")
 

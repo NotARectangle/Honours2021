@@ -11,13 +11,14 @@ def load_dataset(filePath):
     return data
 
 def prepare_inputs_from_data(data, model, tokenizer):
-    input_dict = {"input_ids": [], "lm_targets": [], "positions": [], "token_type_ids":[]
+    input_dict = {"input_ids": [], "positions": [], "token_type_ids":[]
         , "mc_token_ids": [], "labels": []}#, "attention_mask": []}
     persona = data["PersonaID"]
     utterances = data["utterances"]
     index = 0
 #    while index < len(utterances):
-    trainingLen = len(utterances) - int(len(utterances) * 0.20)
+    trainingLen = len(utterances) - int(len(utterances) * 0.25)
+    #trainingLen = 15000
     while index < trainingLen: #less to make it faster for testing
         history = utterances[index]["history"]
         reply = utterances[index]["reply"]
@@ -28,11 +29,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
             input_dict["input_ids"].append(words)
             last_token = len(words)-1
             input_dict["mc_token_ids"].append(last_token)
-            lm_targets = []
             labels = []
-            #language modeling targets
-            lm_targets = sequence[(len(sequence)-1)]
-            lm_targets = lm_targets[:-1]
 
             in_reply = False
             for seq in sequence:
@@ -49,7 +46,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
                     labels.append(label)
                     j += 1
 
-            input_dict["lm_targets"].append(lm_targets)
+           # input_dict["lm_targets"].append(lm_targets)
             input_dict["positions"].append(positions)
             input_dict["token_type_ids"].append(token_type_ids)
             input_dict["labels"].append(words)

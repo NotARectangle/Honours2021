@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="Ready for training">
-      <change afterPath="$PROJECT_DIR$/Dataset/picardData2.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dataset/picardData2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Dataset/picardData2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/dataImport.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/dataImport.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/personaID.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/personaID.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelTests/personaWriter.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTests/personaWriter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,7 +288,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615947961635</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Ready for training">
+      <created>1615948780450</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1615948780450</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -319,13 +330,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Model/dataImport.py</url>
-          <line>19</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

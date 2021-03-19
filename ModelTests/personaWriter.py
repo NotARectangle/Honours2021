@@ -43,7 +43,7 @@ for ep in episodes:
                     added_scenes = []
                 for sc in pot_scenes:
                     scene_len = len(sc)
-                    if scene_len > 400:
+                    if scene_len > 550:
                         #split scene
                         persona_matches = re.finditer(persona+":", sc)
                         l_ind = []
@@ -113,7 +113,7 @@ for ep in episodes:
                 utterances.append(utterance)
 
 #hardcoding in some example introductions for now into Persona ID
-newData = {"PersonaID" : ["<bos>" + persona + " I am Jean-Luc Picard, Captain of the Enterprise."], "utterances" : utterances}
+newData = {"PersonaID" : ["<bos> " + persona + " I am Jean-Luc Picard, Captain of the Enterprise."], "utterances" : utterances}
 print(len(newData["utterances"]))
 with open('../Dataset/picardData2.json', 'w', encoding='utf-8') as json_file:
   json.dump(newData, json_file)

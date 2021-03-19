@@ -33,9 +33,12 @@ def getSamples():
     return persona, history, reply
 
 def prepare_inputs(persona, history, reply, model, tokenizer):
-    #encoded_samples = tokenizer.tokenize(s)
+
+    # replace EOS token for PICARD:
+    reply = [reply[0].replace("<eos>", " PICARD:")]
     max_input = 1024 #GPT2 max input sequence length.
     string_input = persona + history + reply;
+
     #print(string_input)
     #Get scene speakers
     speaker_token_re = "([A-Z]+:)"
@@ -114,9 +117,5 @@ def padding(encoded_input, tokenizer):
                 encoded_input[index].append(tokenizer.pad_token_id) #pad token id
                 count += 1
         index += 1
-
-
-
-
 
     return encoded_input
