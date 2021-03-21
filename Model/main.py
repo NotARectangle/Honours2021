@@ -58,7 +58,7 @@ model = GPT2LMHeadModel.from_pretrained('./TNG/MakeItSo3')
 #model = GPT2DoubleHeadsModel.from_pretrained('./TNG/MakeItSo')
 print("model loaded")
 
-sequence = f"<bos>PICARD: I am Jean-Luc Picard, Captain of the Enterprise. TROI: Are you alright? PICARD:"
+sequence = f"TROI: Or an incredibly powerful forcefield. But if we collide with either it could be dangerous."
 
 
 
@@ -93,7 +93,7 @@ for i in range(100):
 
 print(resulting_string)
 
-sequence = "TROI: would you suggest Captain?. PICARD: "
+sequence = "PICARD: You will agree, Data, that Starfleet's orders are difficult? DATA: Difficult? Simply solve the mystery of Farpoint Station. "
 input_ids = tokenizer.encode(sequence, return_tensors='pt')
 # generate text until the output length (which includes the context length) reaches 50
 greedy_output = model.generate(input_ids, max_length=50)
