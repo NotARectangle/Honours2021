@@ -1,7 +1,7 @@
 import json
 from transformers import GPT2Tokenizer, GPT2DoubleHeadsModel
 from Model.personaID import prepare_inputs, padding
-import numpy as np
+from sklearn.model_selection import train_test_split
 
 
 # load dataset
@@ -10,9 +10,21 @@ def load_dataset(filePath):
 
     return data
 
+def seperate_train_test(data):
+    personas = data.keys()
+    dict = {"Train" : {}, "Test": {}}
+    train_utt = []
+    test_utt = []
+    for persona in personas:
+        utter = data[persona]["utterances"]
+        u_train, u_test = train_test_split(utter, test_size=0.20)
+        dict["Train"][persona] = {"PersonaID": data[persona]["PersonaID"], "utterances": u_train}
+        dict["Test"][persona] = {"PersonaID": data[persona]["PersonaID"], "utterances": u_train}
+    return dict
+
 def prepare_inputs_from_data(data, model, tokenizer):
-    input_dict = {"input_ids": [], "positions": [], "token_type_ids":[]
-        , "mc_token_ids": [], "labels": []}#, "attention_mask": []}
+    input_dict = {"input_ids": [], "token_type_ids":[]
+        , "labels": []}
     persona = data["PersonaID"]
     utterances = data["utterances"]
     index = 0
@@ -47,7 +59,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
                     j += 1
 
            # input_dict["lm_targets"].append(lm_targets)
-            input_dict["positions"].append(positions)
+         #   input_dict["positions"].append(positions)
             input_dict["token_type_ids"].append(token_type_ids)
             input_dict["labels"].append(words)
         index += 1
