@@ -4,7 +4,7 @@ import re
 from transformers import GPT2Tokenizer, GPT2DoubleHeadsModel, pipeline, AutoTokenizer, AutoModel, GPT2LMHeadModel
 import torch
 from Model.Train import train
-from Model.dataImport import load_dataset, prepare_inputs_from_data, seperate_train_test
+from Model.dataImport import load_dataset, prepare_inputs_from_data, seperate_train_test, convert_to_tensors
 from personaID import setSpecTokens
 
 """
@@ -35,11 +35,17 @@ train(tensor_dataset, model)
 
 tokenizer.save_pretrained("./TNG/MakeItSo3")
 """
+tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+model = GPT2LMHeadModel.from_pretrained('gpt2')
 
 filepath = '../Dataset/tngPersonaData.json'
 data = load_dataset(filepath)
 
 newDict = seperate_train_test(data)
 
-with open('../Dataset/Train_test_dict.json', 'w', encoding='utf-8') as json_file:
-  json.dump(newDict, json_file)
+test = newDict["Train"]["PICARD:"]
+input_dict = prepare_inputs_from_data(test, model, tokenizer)
+
+tensor_dataset = convert_to_tensors(input_dict)
+
+train(tensor_dataset, model)
