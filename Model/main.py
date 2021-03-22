@@ -37,15 +37,26 @@ tokenizer.save_pretrained("./TNG/MakeItSo3")
 """
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 model = GPT2LMHeadModel.from_pretrained('gpt2')
-
+setSpecTokens(model, tokenizer)
 filepath = '../Dataset/tngPersonaData.json'
 data = load_dataset(filepath)
 
 newDict = seperate_train_test(data)
 
-test = newDict["Train"]["PICARD:"]
-input_dict = prepare_inputs_from_data(test, model, tokenizer)
-
-tensor_dataset = convert_to_tensors(input_dict)
-
+train_dict = newDict["Train"]["PICARD:"]
+test_dict = newDict["Test"]["PICARD:"]
+input_dict_train = prepare_inputs_from_data(train_dict, model, tokenizer)
+input_dict_test = prepare_inputs_from_data(test_dict, model, tokenizer)
+pad_value = tokenizer.pad_token_id
+train_tensor_dataset = convert_to_tensors(input_dict_train, pad_value)
+test_tensor_dataset = convert_to_tensors(input_dict_test, pad_value)
+#print(tensor_dataset["train"]["labels"][0])
+tensor_dataset = {"train" : train_tensor_dataset, "test" : test_tensor_dataset}
+"""
+tensor_dataset = {"train": []}
+print(input_dict["input_ids"][0])
+for key in input_dict:
+    tensor = torch.tensor(input_dict[key])
+    tensor_dataset["train"].append(tensor)
+"""
 train(tensor_dataset, model)

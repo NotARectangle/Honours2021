@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import DataLoader, TensorDataset
-from transformers import AdamW, AutoModel
-import transformers
+from transformers import AdamW, AutoModel, Trainer, TrainingArguments
+
 
 """
 class tng_dataset(torch.utils.data.Dataset):
@@ -22,28 +22,41 @@ def train(input_dict, model):
     model.to(device)
     model.train()
     optim = AdamW(model.parameters(), lr=5e-5)
-    # get tensors
-   # print(input_ids)
-   # model(input_ids=input_ids)
-    """
-    input_ids = torch.tensor(input_dict["input_ids"])
-    lm_targets = torch.tensor(input_dict["lm_targets"])
-    token_type_ids = torch.tensor(input_dict["token_type_ids"])
-    #att_mask = torch.tensor(input_dict["att_mask"])
-    """
+
     train_dataset = TensorDataset(*input_dict["train"])
+    test_dataset = TensorDataset(*input_dict["test"])
     #convert to dataset.
     train_loader = DataLoader(train_dataset, batch_size=10)
+
+    training_args = TrainingArguments(
+        output_dir='./results',  # output directory
+        num_train_epochs=3,  # total number of training epochs
+        per_device_train_batch_size=10,  # batch size per device during training
+        per_device_eval_batch_size=64,  # batch size for evaluation
+        warmup_steps=500,  # number of warmup steps for learning rate scheduler
+        weight_decay=0.01,  # strength of weight decay
+        logging_dir='./logs',  # directory for storing logs
+        logging_steps=10,
+    )
+
+    trainer = Trainer(
+        model=model,  # the instantiated 🤗 Transformers model to be trained
+        args=training_args,  # training arguments, defined above
+        train_dataset=train_dataset,  # training dataset
+        eval_dataset=test_dataset  # evaluation dataset
+    )
+
+    trainer.train()
+    """
     for epoch in range(3):
       print("Epoch :" + str(epoch))
         #  load input in batches
       for batch in train_loader:
         optim.zero_grad()
         input_ids, token_type_ids, labels = batch
-       # labels = input_ids
-        print(str(len(input_ids)) +" " + str(len(token_type_ids)) + " " + str(len(labels)))
-        print(input_ids)
         outputs = model(input_ids=input_ids, labels=labels, token_type_ids=token_type_ids)
+        # lm_coef = 2.0 #language modeling weight higher than clasification head weight
+        # mc_coef = 1.0
         loss = outputs.loss
         loss.backward()
         optim.step()
@@ -61,7 +74,7 @@ def train(input_dict, model):
     model.save_pretrained("./TNG/MakeItSo4")
 
     print("model_changed?")
-
+    """
 
 
 

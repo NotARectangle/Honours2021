@@ -50,7 +50,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
             for seq in sequence:
                 # make labels pointing to reply
                 j = 0
-                label = -1
+                label = -100
                 # check if reply
                 if seq == sequence[(len(sequence)-1)]:
                     #label = 10
@@ -64,7 +64,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
            # input_dict["lm_targets"].append(lm_targets)
          #   input_dict["positions"].append(positions)
             input_dict["token_type_ids"].append(token_type_ids)
-            input_dict["labels"].append(words)
+            input_dict["labels"].append(labels)
         index += 1
         print(index)
 
@@ -85,8 +85,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
                 newLabels.append(i)
         input_dict["labels"][count] = newLabels
         count+=1
-
-  
+    
     # add attention mask
     att_Mask = []
     for input in input_dict["input_ids"]:
@@ -108,9 +107,10 @@ def prepare_inputs_from_data(data, model, tokenizer):
 
 # split dataset in train and test dataset
 
-def convert_to_tensors(input_dict):
-    tensor_dataset = {"train": []}
+def convert_to_tensors(input_dict, pad_value):
+    tensor_dataset = []
     length = []
+    pad_v = pad_value
     for item in input_dict["input_ids"]:
         length.append(len(item))
     print(length[0])
@@ -121,8 +121,13 @@ def convert_to_tensors(input_dict):
             tensor = torch.tensor(item)
             unpad_tensors.append(tensor)
         #pad tensor
-        tensors = pad_sequence(unpad_tensors, padding_value=0)
-        tensor_dataset["train"].append(tensors)
+        #if key equals labels pad -100 to ignore for calculating loss
+        if key == "labels":
+            pad_v=-100
+        else:
+            pad_v=pad_value
+        tensors = pad_sequence(unpad_tensors, batch_first=True, padding_value=pad_v)
+        tensor_dataset.append(tensors)
 
     return tensor_dataset
 
