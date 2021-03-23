@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="tried to use tensor pad tokens but it doesn't work yet. Will try to fix tomorrow morning.">
+    <list default="true" id="55d92f1e-c910-47c6-9f53-8ae250e3f3e1" name="Default Changelist" comment="training method">
+      <change afterPath="$PROJECT_DIR$/Model/evaluation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dataset/PersonaIDsCut.json" beforeDir="false" afterPath="$PROJECT_DIR$/Dataset/PersonaIDsCut.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dataset/tngPersonaData.json" beforeDir="false" afterPath="$PROJECT_DIR$/Dataset/tngPersonaData.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/Train.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Model/dataImport.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/dataImport.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Model/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Model/personaID.py" beforeDir="false" afterPath="$PROJECT_DIR$/Model/personaID.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +47,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\milen\Documents\GitHub\Honours2021\Model\TNG" />
       <recent name="C:\Users\milen\Documents\GitHub\Honours2021\Model" />
+      <recent name="C:\Users\milen\Documents\GitHub\Honours2021\Model\TNG" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
@@ -320,8 +323,25 @@
       <option name="project" value="LOCAL" />
       <updated>1616374871587</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="training method">
+      <created>1616426870606</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1616426870606</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -354,7 +374,8 @@
     <MESSAGE value="changes to training data to end with PICARD: for next token generation" />
     <MESSAGE value="implemented interact.py I am going to make some changes to the training dataset." />
     <MESSAGE value="tried to use tensor pad tokens but it doesn't work yet. Will try to fix tomorrow morning." />
-    <option name="LAST_COMMIT_MESSAGE" value="tried to use tensor pad tokens but it doesn't work yet. Will try to fix tomorrow morning." />
+    <MESSAGE value="training method" />
+    <option name="LAST_COMMIT_MESSAGE" value="training method" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -368,6 +389,36 @@
           <url>file://$PROJECT_DIR$/Model/main.py</url>
           <line>52</line>
           <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Model/Train.py</url>
+          <line>42</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Model/Train.py</url>
+          <line>39</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Model/Train.py</url>
+          <line>32</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Model/dataImport.py</url>
+          <line>99</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Model/dataImport.py</url>
+          <line>68</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Model/personaID.py</url>
+          <line>52</line>
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -383,7 +434,14 @@
         <watch expression="sc" />
         <watch expression="added_scenes" />
         <watch expression="last_sequence" />
+        <watch expression="s" />
       </configuration>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/Model/personaID.py" line="76">
+        <watch expression="token_type_ids" />
+      </inline-watch>
+      <inline-watch fileUrl="file://$PROJECT_DIR$/Model/personaID.py" line="77">
+        <watch expression="words" />
+      </inline-watch>
     </watches-manager>
   </component>
 </project>

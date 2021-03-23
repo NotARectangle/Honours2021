@@ -11,7 +11,9 @@ import numpy as np
 
 
 def setSpecTokens(model, tokenizer):
-    tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": "<eos>", "pad_token": "<pad>"})#, "additional_special_tokens" : ["PICARD:"]})
+
+    special_tokens = ["PICARD:", "OTHER:", "CRUSHER:", "TROI:", "RIKER:", "DATA:", "LAFORGE:", "WESLEY:", "Q:", "TASHA:", "WORF:"]
+    tokenizer.add_special_tokens({"bos_token": "<bos>", "eos_token": "<eos>", "pad_token": "<pad>", "additional_special_tokens" : special_tokens})
     print(tokenizer.bos_token)
     print(tokenizer.eos_token)
     # adapt model to changes from tokenizer
@@ -33,64 +35,65 @@ def getSamples():
     return persona, history, reply
 
 def prepare_inputs(persona, history, reply, model, tokenizer):
-
-    # replace EOS token for PICARD:
-    reply = [reply[0].replace("<eos>", " PICARD:")]
-    max_input = 1024 #GPT2 max input sequence length.
+    max_input = 1024  # GPT2 max input sequence length.
     string_input = persona + history + reply;
 
-    #print(string_input)
-    #Get scene speakers
-    speaker_token_re = "([A-Z]+:)"
+    # print(string_input)
+    problemString = "Q:"
+
+    # Get scene speakers
+    speaker_token_re = "([A-Z]+ ?[A-Z]+ ?:)|[A-Z]:"
     speakers = []
-    repeat = False
+    count = 0
     for input in string_input:
+
         if re.match(speaker_token_re, input):
             speaker = re.findall(speaker_token_re, input)
-            for s in speaker:
-                if s not in speakers and s not in tokenizer.additional_special_tokens:
-                    speakers = speakers + speaker
-    """
+            if "AMANDA:" in speaker:
+                print("attention")
+            if len(speaker) > 0:
+                for s in speaker:
+                    if s not in tokenizer.additional_special_tokens and s != "":
+                        string_input[count] = input.replace(s, "OTHER:")
+        count += 1
+
     spek_tokens = tokenizer.additional_special_tokens
-    #Add to special tokens maybe at end
-    if len(speakers) != 0:
-        spek_tokens = tokenizer.additional_special_tokens + speakers
-        tokenizer.add_special_tokens({"additional_special_tokens" : spek_tokens})
-        model.resize_token_embeddings(len(tokenizer))
-            #encode token type ids
+
+        # encode token type ids
     spek_token_ids = tokenizer.encode(spek_tokens)
-    """
 
-   # print(tokenizer.additional_special_tokens)
-   
-    #encode all inputs
-    sequence = [tokenizer.encode(s) for s in string_input]
+    # encode all inputs
+    try:
+        sequence = []
+        for s in string_input:
+            sequence.append(tokenizer.encode(s))
+    except:
+        print("Exception occured.")
+        print(sequence)
+        print(s)
 
-
-
-    #currentSpeaker = spek_token_ids[0] # start with selected character
-    #currentSpeaker = 0
+    currentSpeaker = spek_token_ids[0]  # start with selected character
+    # currentSpeaker = 0
     token_type_ids = []
     words = []
 
     for seq in sequence:
-        type = 0
-        if seq == sequence[(len(sequence)-1)]:
-            type = 1
+        # type = 0
+        #   if seq == sequence[(len(sequence)-1)]:
+        # type = 1
         for token in seq:
-            #cocacennate all tokens in sequence together
+            # cocacennate all tokens in sequence together
+            #add to words
             words.append(token)
-
-            token_type_ids.append(type)
-            """
             if token in spek_token_ids:
                 currentSpeaker = spek_token_ids[spek_token_ids.index(token)]
-            if token is tokenizer.bos_token_id or token is tokenizer.eos_token_id:
+                token_type_ids.append(currentSpeaker)
+            elif token is tokenizer.bos_token_id or token is tokenizer.eos_token_id:
                 token_type_ids.append(token)
             else:
                 token_type_ids.append(currentSpeaker)
-            """
-    #check if inputs are to long.
+
+    # check if inputs are to long.
 
     positions = list(range(len(words)))
 

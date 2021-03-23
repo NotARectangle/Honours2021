@@ -27,7 +27,7 @@ def seperate_train_test(data):
 
 def prepare_inputs_from_data(data, model, tokenizer):
     input_dict = {"input_ids": [], "token_type_ids":[]
-        , "labels": []}
+        , "labels": [], "attention_mask": []}
     persona = data["PersonaID"]
     utterances = data["utterances"]
     index = 0
@@ -39,7 +39,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
         reply = utterances[index]["reply"]
         #tokenize and build word sequence sing prepare inputs
         words, sequence, positions, token_type_ids = prepare_inputs(persona, history, reply, model, tokenizer)
-        if len(words) < 1000:
+        if len(words) < 300:
             #Add inputs to input_dict
             input_dict["input_ids"].append(words)
             last_token = len(words)-1
@@ -65,27 +65,13 @@ def prepare_inputs_from_data(data, model, tokenizer):
          #   input_dict["positions"].append(positions)
             input_dict["token_type_ids"].append(token_type_ids)
             input_dict["labels"].append(labels)
+        else:
+            print(tokenizer.decode(words))
         index += 1
         print(index)
 
     print("finished while prep input")
-    """
-    #pad and then convert to tensors.
-    for key in input_dict:
-        if key != "mc_token_ids" and key != "attention_mask":
-            paddedInput = padding(input_dict[key], tokenizer)
 
-    count = 0
-    while count < len(input_dict["labels"]):
-        newLabels = []
-        for i in input_dict["labels"][count]:
-            if i == tokenizer.pad_token_id:
-                newLabels.append(-100)
-            else:
-                newLabels.append(i)
-        input_dict["labels"][count] = newLabels
-        count+=1
-    
     # add attention mask
     att_Mask = []
     for input in input_dict["input_ids"]:
@@ -98,9 +84,7 @@ def prepare_inputs_from_data(data, model, tokenizer):
         att_Mask.append(item)
 
     input_dict["attention_mask"] = att_Mask
-    print(input_dict["attention_mask"][2])
-    print(input_dict["attention_mask"][1])
-    """
+   # print(input_dict["attention_mask"])
     return input_dict
 
  #build tensor dataset.
@@ -113,7 +97,7 @@ def convert_to_tensors(input_dict, pad_value):
     pad_v = pad_value
     for item in input_dict["input_ids"]:
         length.append(len(item))
-    print(length[0])
+    print(max(length))
 
     for key in input_dict:
         unpad_tensors = []
@@ -124,6 +108,8 @@ def convert_to_tensors(input_dict, pad_value):
         #if key equals labels pad -100 to ignore for calculating loss
         if key == "labels":
             pad_v=-100
+        elif key == "attention_mask":
+            pad_v=0
         else:
             pad_v=pad_value
         tensors = pad_sequence(unpad_tensors, batch_first=True, padding_value=pad_v)

@@ -18,45 +18,34 @@ class tng_dataset(torch.utils.data.Dataset):
 def train(input_dict, model):
     print("start training method")
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-    device = torch.device("cpu")
+   # device = torch.device("cpu")
+    print(device)
     model.to(device)
     model.train()
     optim = AdamW(model.parameters(), lr=5e-5)
 
     train_dataset = TensorDataset(*input_dict["train"])
     test_dataset = TensorDataset(*input_dict["test"])
+   # train_dataset = tng_dataset(input_dict["train"])
+  #  test_dataset = tng_dataset(input_dict["test"])
     #convert to dataset.
     train_loader = DataLoader(train_dataset, batch_size=10)
+    print(train_dataset[0][0])
 
-    training_args = TrainingArguments(
-        output_dir='./results',  # output directory
-        num_train_epochs=3,  # total number of training epochs
-        per_device_train_batch_size=10,  # batch size per device during training
-        per_device_eval_batch_size=64,  # batch size for evaluation
-        warmup_steps=500,  # number of warmup steps for learning rate scheduler
-        weight_decay=0.01,  # strength of weight decay
-        logging_dir='./logs',  # directory for storing logs
-        logging_steps=10,
-    )
-
-    trainer = Trainer(
-        model=model,  # the instantiated 🤗 Transformers model to be trained
-        args=training_args,  # training arguments, defined above
-        train_dataset=train_dataset,  # training dataset
-        eval_dataset=test_dataset  # evaluation dataset
-    )
-
-    trainer.train()
-    """
     for epoch in range(3):
       print("Epoch :" + str(epoch))
         #  load input in batches
       for batch in train_loader:
         optim.zero_grad()
-        input_ids, token_type_ids, labels = batch
-        outputs = model(input_ids=input_ids, labels=labels, token_type_ids=token_type_ids)
-        # lm_coef = 2.0 #language modeling weight higher than clasification head weight
-        # mc_coef = 1.0
+        input_ids, token_type_ids, labels, attention_mask = batch
+        input_ids = input_ids.to(device)
+        """
+        input_ids = batch["input_ids"].to(device)
+        token_type_ids = batch["token_type_ids"].to(device)
+        labels = batch["labels"].to(device)
+        attention_mask = batch["attention_mask"].to(device)
+        """
+        outputs = model(input_ids=input_ids)
         loss = outputs.loss
         loss.backward()
         optim.step()
@@ -74,7 +63,7 @@ def train(input_dict, model):
     model.save_pretrained("./TNG/MakeItSo4")
 
     print("model_changed?")
-    """
+
 
 
 
