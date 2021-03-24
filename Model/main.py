@@ -43,8 +43,8 @@ data = load_dataset(filepath)
 
 newDict = seperate_train_test(data)
 
-train_dict = newDict["Train"]["PICARD:"]
-test_dict = newDict["Test"]["PICARD:"]
+train_dict = newDict["Train"]
+test_dict = newDict["Test"]
 input_dict_train = prepare_inputs_from_data(train_dict, model, tokenizer)
 input_dict_test = prepare_inputs_from_data(test_dict, model, tokenizer)
 pad_value = tokenizer.pad_token_id

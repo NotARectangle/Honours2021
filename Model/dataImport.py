@@ -28,45 +28,49 @@ def seperate_train_test(data):
 def prepare_inputs_from_data(data, model, tokenizer):
     input_dict = {"input_ids": [], "token_type_ids":[]
         , "labels": [], "attention_mask": []}
-    persona = data["PersonaID"]
-    utterances = data["utterances"]
-    index = 0
-#    while index < len(utterances):
-    trainingLen = len(utterances) - int(len(utterances) * 0.25)
-    #trainingLen = 15000
-    while index < trainingLen: #less to make it faster for testing
-        history = utterances[index]["history"]
-        reply = utterances[index]["reply"]
-        #tokenize and build word sequence sing prepare inputs
-        words, sequence, positions, token_type_ids = prepare_inputs(persona, history, reply, model, tokenizer)
-        if len(words) < 300:
-            #Add inputs to input_dict
-            input_dict["input_ids"].append(words)
-            last_token = len(words)-1
-         #   input_dict["mc_token_ids"].append(last_token)
-            labels = []
+    for person in data:
+        print(person)
+        persona = data[person]["PersonaID"]
+        utterances = data[person]["utterances"]
+        index = 0
+    #    while index < len(utterances):
+        trainingLen = len(utterances) - int(len(utterances) * 0.25)
+        #trainingLen = 15000
+        while index < trainingLen: #less to make it faster for testing
+            history = utterances[index]["history"]
+            reply = utterances[index]["reply"]
+            #tokenize and build word sequence sing prepare inputs
+            words, sequence, positions, token_type_ids = prepare_inputs(persona, history, reply, model, tokenizer)
+            if len(words) < 300:
+                #Add inputs to input_dict
+                input_dict["input_ids"].append(words)
+                last_token = len(words)-1
+             #   input_dict["mc_token_ids"].append(last_token)
+                labels = []
+                current_pers = tokenizer.encode(person)
+                current_pers = current_pers[0]
+                in_reply = False
+                for seq in sequence:
+                    # make labels pointing to reply
+                    j = 0
+                    label = -100
+                    # check if reply
+                    if current_pers in seq:
+                        # label = 10
+                        in_reply = True
+                    else:
+                        in_reply = False
+                        label = -100
+                    while j < len(seq):
+                        if in_reply is True:
+                            label = seq[j]
+                        labels.append(label)
+                        j += 1
 
-            in_reply = False
-            for seq in sequence:
-                # make labels pointing to reply
-                j = 0
-                label = -100
-                # check if reply
-                if seq == sequence[(len(sequence)-1)]:
-                    #label = 10
-                    in_reply = True
-                while j < len(seq):
-                    if in_reply is True:
-                        label = seq[j]
-                    labels.append(label)
-                    j += 1
-
-           # input_dict["lm_targets"].append(lm_targets)
-         #   input_dict["positions"].append(positions)
-            input_dict["token_type_ids"].append(token_type_ids)
-            input_dict["labels"].append(labels)
-        else:
-            print(tokenizer.decode(words))
+                input_dict["token_type_ids"].append(token_type_ids)
+                input_dict["labels"].append(labels)
+            else:
+                print(tokenizer.decode(words))
         index += 1
         print(index)
 
