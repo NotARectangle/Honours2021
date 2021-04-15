@@ -4,7 +4,7 @@ import re
 from torch.nn import functional as F
 import json
 
-modelPath = "./TNG/MakeItSo2"
+modelPath = "./TNG/MakeItSo3"
 
 model = GPT2LMHeadModel.from_pretrained(modelPath)
 tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
@@ -12,8 +12,9 @@ tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
 
 def generate_output(history, persona):
     sequence = history + persona
-
+    resulting_string = " "
     for i in range(150):
+
 
         input_ids = tokenizer.encode(sequence, return_tensors='pt')
 
@@ -21,7 +22,7 @@ def generate_output(history, persona):
         next_token_logits = model(input_ids).logits[:, -1, :]
 
         # filter
-        filtered_next_token_logits = top_k_top_p_filtering(next_token_logits, top_k=50, top_p=0.95)
+        filtered_next_token_logits = top_k_top_p_filtering(next_token_logits, top_k=20, top_p=0.95)
 
         # sample
         probs = F.softmax(filtered_next_token_logits, dim=-1)
@@ -41,12 +42,12 @@ def generate_output(history, persona):
         last_word = sequence[sequence.rindex(" ") + 1:]
 
         if re.match("([A-Z]+:)", last_word) or last_word in tokenizer.eos_token:
-            print("matched")
             resulting_string = resulting_string[: sequence.rindex(last_word)]
             break;
 
     #just generated outcome
-    resulting_string = resulting_string[resulting_string.rindex(persona):]
+    if resulting_string != " ":
+        resulting_string = resulting_string[resulting_string.rindex(persona):]
     return resulting_string
 
 
@@ -57,8 +58,14 @@ def startChat():
     print("Select own persona")
     persona2, personaID2 = loadPersona()
     #start chat.
-    history = ["<bos" + " ".join(personaID)] # bos at start of history
-  #  history.append(personaID2[0]) # append first itroduction
+    history = ["<bos" + personaID[0]] # bos at start of history
+    history.append(personaID2[0]) # append first itroduction
+    print(personaID2[0])
+    context = " ".join(history)
+    output = generate_output(context, persona1)
+    history.append(output)
+    print(output)
+
     for i in range(5):
 
         userinput = input(persona2 + " ")
@@ -68,7 +75,7 @@ def startChat():
         output = generate_output(context, persona1)
         history.append(output)
         print(output)
-        #labels we can do labels of pad
+
 
 def loadPersona():
     selected =""
