@@ -49,6 +49,8 @@ def prepare_inputs(persona, history, reply, model, tokenizer):
 
         if re.match(speaker_token_re, input):
             speaker = re.findall(speaker_token_re, input)
+            if "AMANDA:" in speaker:
+                print("attention")
             if len(speaker) > 0:
                 for s in speaker:
                     if s not in tokenizer.additional_special_tokens and s != "":

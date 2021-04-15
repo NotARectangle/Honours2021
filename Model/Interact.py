@@ -9,12 +9,6 @@ modelPath = "./TNG/MakeItSo2"
 model = GPT2LMHeadModel.from_pretrained(modelPath)
 tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
 
-"""
-input_str = "PICARD: I am Captain Picard, commanding the Enterprise. PICARD: You will agree, Data, that Starfleet's orders are difficult? DATA: Difficult? Simply solve the mystery of Farpoint Station."
-
-personaID = "PICARD: I am Captain Picard, commanding the Enterprise."
-persona2 = "DATA: I am commander Data."
-"""
 
 def generate_output(history, persona):
     sequence = history + persona
