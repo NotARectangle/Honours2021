@@ -4,13 +4,13 @@ import re
 from torch.nn import functional as F
 import json
 
-modelPath = "./TNG/TNGv5"
+#modelPath = "./TNG/TNGv5"
 
-model = GPT2LMHeadModel.from_pretrained(modelPath)
-tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
+#model = GPT2LMHeadModel.from_pretrained(modelPath)
+#tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
 
 
-def generate_output(history, persona):
+def generate_output(model, tokenizer, history, persona):
     sequence = history + persona
     resulting_string = " "
     for i in range(150):
@@ -36,8 +36,6 @@ def generate_output(history, persona):
 
         resulting_string = tokenizer.decode(generated.tolist()[0])
 
-        #last_token = tokenizer.decode(next_token[0])
-
         sequence = resulting_string
         last_word = sequence[sequence.rindex(" ") + 1:]
 
@@ -58,13 +56,8 @@ def startChat():
     print("Select own persona")
     persona2, personaID2 = loadPersona()
     #start chat.
-    history = ["<bos" + personaID[0]] # bos at start of history
+    history = ["<bos" + " ".join(personaID[0])] # bos at start of history
     history.append(personaID2[0]) # append first itroduction
-    print(personaID2[0])
-    context = " ".join(history)
-    output = generate_output(context, persona1)
-    history.append(output)
-    print(output)
 
     for i in range(5):
 
