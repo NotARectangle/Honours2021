@@ -4,7 +4,7 @@ import re
 from torch.nn import functional as F
 import json
 
-modelPath = "./TNG/MakeItSo3"
+modelPath = "./TNG/TNGv5"
 
 model = GPT2LMHeadModel.from_pretrained(modelPath)
 tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
@@ -22,7 +22,7 @@ def generate_output(history, persona):
         next_token_logits = model(input_ids).logits[:, -1, :]
 
         # filter
-        filtered_next_token_logits = top_k_top_p_filtering(next_token_logits, top_k=20, top_p=0.95)
+        filtered_next_token_logits = top_k_top_p_filtering(next_token_logits, top_k=50, top_p=0.95)
 
         # sample
         probs = F.softmax(filtered_next_token_logits, dim=-1)
@@ -101,4 +101,3 @@ def loadPersona():
 
     return selected, personaIDs[selected]
 
-startChat()

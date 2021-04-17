@@ -40,7 +40,7 @@ model = GPT2LMHeadModel.from_pretrained('gpt2')
 setSpecTokens(model, tokenizer)
 filepath = '../Dataset/tngPersonaData.json'
 data = load_dataset(filepath)
-
+"""
 newDict = seperate_train_test(data)
 
 train_dict = newDict["Train"]
@@ -56,7 +56,7 @@ input_dict_test = prepare_inputs_from_data(test_dict, model, tokenizer)
 pad_value = tokenizer.pad_token_id
 
 
-"""
+
 train_tensor_dataset = convert_to_tensors(input_dict_train, pad_value)
 test_tensor_dataset = convert_to_tensors(input_dict_test, pad_value)
 #print(tensor_dataset["train"]["labels"][0])

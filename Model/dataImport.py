@@ -3,7 +3,7 @@ import json
 import torch
 from torch.nn.utils.rnn import pad_sequence
 from transformers import GPT2Tokenizer, GPT2DoubleHeadsModel
-from Model.personaID import prepare_inputs, padding
+from Model.personaID import prepare_inputs
 from sklearn.model_selection import train_test_split
 
 

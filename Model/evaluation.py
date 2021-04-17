@@ -6,7 +6,7 @@ from Model.dataImport import load_dataset
 
 metric = load_metric('sacrebleu')
 
-#returns model input withut reply section
+#returns model input without reply section
 def prepare_model_input(evaluation_dataset):
     personas = evaluation_dataset.keys()
     model_inputs = []
@@ -28,7 +28,7 @@ modelPath = "./TNG/MakeItSo2"
 model = GPT2LMHeadModel.from_pretrained(modelPath)
 tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
 
-filepath = '../Dataset/Train_test_set.json'
+filepath = '../Dataset/Train_eval_main.json'
 data = load_dataset(filepath)
 evaluation_dataset = data["Test"]
 

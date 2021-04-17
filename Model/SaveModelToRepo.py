@@ -1,6 +1,6 @@
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 import torch
-modelPath = "./TNG/MakeItSo2"
+modelPath = "./TNG/TNGv5"
 
 model = GPT2LMHeadModel.from_pretrained(modelPath)
 tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
