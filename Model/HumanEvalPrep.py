@@ -27,7 +27,7 @@ def prepare_main_model_input(evaluation_dataset):
 
 def assembleSamples():
     mainModelPath = "./TNG/TNGv5"
-    altModelPath = "./TNG/TNGv5"
+    altModelPath = "./TNG/TNGALTvs3"
 
     mainModel = GPT2LMHeadModel.from_pretrained(mainModelPath)
     mainTokenizer = GPT2Tokenizer.from_pretrained(mainModelPath)
