@@ -23,31 +23,32 @@ def prepare_model_input(evaluation_dataset):
             references.append([str_ref])
     return model_inputs, references, persIds
 
-#compare model inputs with references containing the reply.
-modelPath = "./TNG/MakeItSo2"
-model = GPT2LMHeadModel.from_pretrained(modelPath)
-tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
+def runEval():
+    #compare model inputs with references containing the reply.
+    modelPath = "./TNG/MakeItSo2"
+    model = GPT2LMHeadModel.from_pretrained(modelPath)
+    tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
 
-filepath = '../Dataset/Train_eval_main.json'
-data = load_dataset(filepath)
-evaluation_dataset = data["Test"]
+    filepath = '../Dataset/Train_eval_main.json'
+    data = load_dataset(filepath)
+    evaluation_dataset = data["Test"]
 
-model_inputs, references, persIds = prepare_model_input(evaluation_dataset)
+    model_inputs, references, persIds = prepare_model_input(evaluation_dataset)
 
-print(model_inputs[0])
-print(references[0])
+    print(model_inputs[0])
+    print(references[0])
 
-index = len(model_inputs) -10
+    index = len(model_inputs) -10
 
-while(index < len(model_inputs) and index < len(references)):
-    input = " ".join(model_inputs[index])
-    model_predictions = generate_output(input, persIds[index])
-    print(model_predictions)
-    metric.add_batch(predictions=[input + model_predictions], references=[references[index]])
-    index += 1
-    #print(index)
+    while(index < len(model_inputs) and index < len(references)):
+        input = " ".join(model_inputs[index])
+        model_predictions = generate_output(input, persIds[index])
+        print(model_predictions)
+        metric.add_batch(predictions=[input + model_predictions], references=[references[index]])
+        index += 1
+        #print(index)
 
-#compute metric
-final_score = metric.compute()
+    #compute metric
+    final_score = metric.compute()
 
-print(final_score)
+    print(final_score)
