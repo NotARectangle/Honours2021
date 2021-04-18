@@ -22,7 +22,7 @@ def seperate_train_test(data):
         utter = data[persona]["utterances"]
         u_train, u_test = train_test_split(utter, test_size=0.20)
         dict["Train"][persona] = {"PersonaID": data[persona]["PersonaID"], "utterances": u_train}
-        dict["Test"][persona] = {"PersonaID": data[persona]["PersonaID"], "utterances": u_train}
+        dict["Test"][persona] = {"PersonaID": data[persona]["PersonaID"], "utterances": u_test}
     return dict
 
 def prepare_inputs_from_data(data, model, tokenizer):

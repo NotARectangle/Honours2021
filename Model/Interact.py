@@ -50,6 +50,11 @@ def generate_output(model, tokenizer, history, persona):
 
 
 def startChat():
+    modelPath = "./TNG/TNGv5"
+
+    model = GPT2LMHeadModel.from_pretrained(modelPath)
+    tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
+
     #select personas
     print("Select Conversation partner")
     persona1, personaID = loadPersona()
@@ -65,7 +70,7 @@ def startChat():
 
         history.append(persona2 + " " + userinput)
         context = " ".join(history)
-        output = generate_output(context, persona1)
+        output = generate_output(model, tokenizer, context, persona1)
         history.append(output)
         print(output)
 

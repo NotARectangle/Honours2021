@@ -50,7 +50,7 @@ def assembleSamples():
     #create 4 samples per persona.
     model_inputs, references, persIds = prepare_main_model_input(evaluation_dataset)
     MainSamples = {}
-    """
+
     for person in persIds:
         indexes = []
         MainSamples[person] = {"context": [], "modelReply": [], "refReply": []}
@@ -67,7 +67,7 @@ def assembleSamples():
                 MainSamples[person]["context"].append(context)
                 MainSamples[person]["modelReply"].append(modelReply)
                 MainSamples[person]["refReply"].append(references[person][idx])
-    """
+
 
     print("Main Samples assembled.")
 
@@ -103,21 +103,5 @@ def assembleSamples():
     with open('../Dataset/HumanEvalSamples.json', 'w', encoding='utf-8') as json_file:
       json.dump(sampleDict, json_file)
 
-def make_tables():
-    filepath = '../Dataset/HumanEvalSamples.json'
-    data = load_dataset(filepath)
-
-    MainData = data["TNGMain"]
-    altData = data["TNGAlt"]
-
-    personas = MainData.keys()
-    for person in personas:
-        context = ["Context"] + MainData[person]["context"]
-        replies = ["Model Reply"] + MainData[person]["modelReply"]
-       # ref = ["Ref Reply"] + MainData[person]["refReply"]
-        info = [context,replies]
-    #info = [['First Name', 'Mary', 'Jennifer'], ['Second Name', 'Smith', 'Jane', 'Doe'], [39, 25, 28]]
-        print(tabulate(info))
-#assembleSamples()
 
 assembleSamples()
