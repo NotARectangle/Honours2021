@@ -1,3 +1,7 @@
+# Author Milena Bromm
+# Student ID 40325069
+# Project Name: Honours 2021
+
 import json
 import re
 

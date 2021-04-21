@@ -1,10 +1,12 @@
-import torch
+# Author Milena Bromm
+# Student ID 40325069
+# Project Name: Honours 2021
+
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 import json
 from Interact import generate_output
 from dataImport import load_dataset
 import random
-from tabulate import tabulate
 
 #returns model input without reply section
 def prepare_main_model_input(evaluation_dataset):
@@ -24,7 +26,7 @@ def prepare_main_model_input(evaluation_dataset):
             references[person].append(entry["reply"])
     return model_inputs, references, persIds
 
-
+#randomly select saples for human evaluation
 def assembleSamples():
     mainModelPath = "./TNG/TNGv5"
     altModelPath = "./TNG/TNGALTvs3"

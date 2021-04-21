@@ -1,3 +1,7 @@
+# Author Milena Bromm
+# Student ID 40325069
+# Project Name: Honours 2021
+# file version with more than one persona
 """
 Persona dataset should be fomatted like so:
 {Persona ID: ["Picard", "Example senteces? or more information"],
@@ -17,7 +21,6 @@ newDict = {}
 # append for each persona
 for persona in personaKeys:
 
-#persona = "PICARD:"
 
     #only permit conversations that include persona
     episodes = data.keys()

@@ -3,16 +3,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#Some JSON
-x =  '{ "name":"John", "age":30, "city":"New York"}'
-
-#parse x
-
-y = json.loads(x)
-
-# the result is a python dictionary
-print(y["age"])
-print("\nWho has the most lines in TNG?")
+#To make plots for who has the most lines in the series. Coded by following
+# https://www.kaggle.com/zoiaran/who-has-the-most-words-and-lines-in-ds9
 
 data = json.load(open('../Dataset/all_series_lines.json', 'r'))
 
@@ -54,7 +46,4 @@ most_words.plot.bar(x='Character',y='No. of Words')
 most_lines.plot.bar(x='Character',y='No. of Lines')
 plt.show()
 
-#fig, (ax1, ax2) = plt.subplots(2)
-#fig.suptitle('TNG most Lines and Words')
-#ax1.plot(x=x1,y=y1)
-#ax2.plot(x=x2,y=y2)
+

@@ -1,3 +1,9 @@
+# Author Milena Bromm
+# Student ID 40325069
+# Project Name: Honours 2021
+
+#This file counts the training data instances per persona
+
 import json
 
 def count_alt_inputs(datafile):

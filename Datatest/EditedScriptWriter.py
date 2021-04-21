@@ -1,3 +1,7 @@
+# Author Milena Bromm
+# Student ID 40325069
+# Project Name: Honours 2021
+
 import json
 import re
 
@@ -41,7 +45,6 @@ for ep in episodes:
     #split scenes by setting notation ex. [Bridge]
     scenes = EpisodeScript[EpisodeScript.index("["):]
     x = re.split(settingRegex, scenes)
-    #x.remove("")
 
     index = 0
     #delete trailing whitespace

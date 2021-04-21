@@ -1,3 +1,6 @@
+# Author Milena Bromm
+# Student ID 40325069
+# Project Name: Honours 2021
 import json
 
 import torch
@@ -33,19 +36,15 @@ def prepare_inputs_from_data(data, model, tokenizer):
         persona = data[person]["PersonaID"]
         utterances = data[person]["utterances"]
         index = 0
-    #    while index < len(utterances):
-        trainingLen = len(utterances) - int(len(utterances) * 0.25)
-        #trainingLen = 15000
-        while index < trainingLen: #less to make it faster for testing
+        while index < len(utterances):
             history = utterances[index]["history"]
             reply = utterances[index]["reply"]
             #tokenize and build word sequence sing prepare inputs
-            words, sequence, positions, token_type_ids = prepare_inputs(persona, history, reply, model, tokenizer)
+            words, sequence, token_type_ids = prepare_inputs(persona, history, reply, model, tokenizer)
             if len(words) < 300:
                 #Add inputs to input_dict
                 input_dict["input_ids"].append(words)
                 last_token = len(words)-1
-             #   input_dict["mc_token_ids"].append(last_token)
                 labels = []
                 current_pers = tokenizer.encode(person)
                 current_pers = current_pers[0]

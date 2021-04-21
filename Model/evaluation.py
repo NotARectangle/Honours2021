@@ -1,3 +1,6 @@
+# Author Milena Bromm
+# Student ID 40325069
+# Project Name: Honours 2021
 import json
 import re
 
@@ -107,7 +110,7 @@ def runEval():
 
     model_inputs, references, persIds = prepare_model_input(evaluation_dataset)
 
-    """
+
     for person in persIds:
 
         score["MainModel"][person] = []
@@ -126,10 +129,11 @@ def runEval():
         # compute metric
         main_final_score = metric.compute()
         score["MainModel"][person] = main_final_score
-    """
+
     # Evaluate second model
     refInputs = prep_alt_inputs()
 
+    #This is the second approach of adding a batch of references per generated output
     for person in persIds:
         score["AltModel"][person] = []
         index = 0
@@ -157,11 +161,11 @@ def runEval():
         print("Metric for person: " + person + " calculated.")
 
     print(score)
-    """
+
         #print scores
     with open('../Dataset/EvalResults.json', 'w', encoding='utf-8') as json_file:
         json.dump(score, json_file)
     print(score)
-"""
+
 
 runEval()

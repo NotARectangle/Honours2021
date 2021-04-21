@@ -1,3 +1,6 @@
+# Author Milena Bromm
+# Student ID 40325069
+# Project Name: Honours 2021
 """
 Persona dataset should be fomatted like so:
 {Persona ID: ["Picard", "Example senteces? or more information"],

@@ -1,15 +1,15 @@
+# Author Milena Bromm
+# Student ID 40325069
+# Project Name: Honours 2021
+
 import torch
 from transformers import GPT2Tokenizer, GPT2LMHeadModel, top_k_top_p_filtering
 import re
 from torch.nn import functional as F
 import json
 
-#modelPath = "./TNG/TNGv5"
 
-#model = GPT2LMHeadModel.from_pretrained(modelPath)
-#tokenizer = GPT2Tokenizer.from_pretrained(modelPath)
-
-
+#main method to generate the model output
 def generate_output(model, tokenizer, history, persona):
     sequence = history + persona
     resulting_string = " "
