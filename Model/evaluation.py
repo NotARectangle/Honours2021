@@ -81,7 +81,7 @@ def prep_alt_inputs():
           if person in x:
               #take out eos and \n since thouse won't be predicted by the evaluation
               subX = x[:x.index("<eos>")]
-              samplePrep[person].append([subX])
+              samplePrep[person].append(subX)
 
     return samplePrep
 
@@ -132,23 +132,31 @@ def runEval():
 
     for person in persIds:
         score["AltModel"][person] = []
-        index = len(refInputs[person])-100
-        #batch_size = 15
+        index = 0
+        batch_size = 30
         while (index < len(refInputs[person])):
             #input = refInputs
-
-            #convert string ref to list.
-            refList = refInputs[person][index][0].split()
-            # take out last word and take out bos and persona
-            splitRef = refList[2:-1]
-            seqStart = " ".join(splitRef)
-            model_predictions = generate_output(altModel, altTokenizer, "<bos> ", person, seqStart)
-            metric.add_batch(predictions=["<bos> " + model_predictions], references=[refInputs[person][index]])
-            index += 1
+            count = 0
+            refList = []
+            if (index + batch_size) < len(refInputs[person]):
+                #convert string ref to list.
+                while count < batch_size:
+                    refList.append(refInputs[person][index + count])
+                    count +=1
+                # take out last word and take out bos and persona
+               # splitRef = refList[2:-1]
+                #seqStart = " ".join(splitRef)
+                model_predictions = generate_output(altModel, altTokenizer, "<bos> ", person, " ")
+                metric.add_batch(predictions=["<bos> " + model_predictions], references=[refList])
+                index += batch_size
+            else:
+                index = len(refInputs[person])
 
         main_final_score = metric.compute()
         score["AltModel"][person] = main_final_score
         print("Metric for person: " + person + " calculated.")
+
+    print(score)
     """
         #print scores
     with open('../Dataset/EvalResults.json', 'w', encoding='utf-8') as json_file:
